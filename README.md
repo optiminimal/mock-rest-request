@@ -15,7 +15,7 @@ Sometimes when you're testing a website or app that's backed by a NodeJS server,
 
 You send a POST request to your webserver telling it that you want to mock a certain request. This POST request contains the mock data. After that, GET requests will return the mocked data.
 
-Of course also wotks with other methods besides GET and you can also mock status codes other than 200.
+Of course also works with other methods besides GET these operations will be performed in memory (PUT/POST, DELETE & GET)..
 
 ## Use with Grunt
 
@@ -78,7 +78,23 @@ After that, normal calls (like the ones coming from our web application) will th
 
     curl http://localhost:3000/api/user
 
-    {"name":"Foo"}
+    {"id": 1, "name":"Foo"}
+
+    curl http://localhost:3000/api/user/1/
+
+    {"id": 1, "name":"Foo"}
+
+    curl -X PUT -d '{"name":"Foos 1"}' curl http://localhost:3000/api/user/1/
+
+    {"id": 1, "name":"Foos 1"}
+
+    curl -X POST -d '{"name":"Foos 2"}' curl http://localhost:3000/api/user/
+
+    {"id": 2, "name":"Foos 2"}
+
+    curl -X DELETE http://localhost:4000/api/users/1/
+
+    {"id": 1, "name":"Foos 1"}
 
 To remove the mock for a certain path, call /reset on the path.
 
