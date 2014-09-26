@@ -137,10 +137,18 @@ module.exports = function mockRequests() {
                     if (item) {
                         body = _.extend(item, JSON.parse(body));
                         renderResponse(res, mockedResponse, body, next);
+                    }  else if (detailID === -1) {
+                        // get highest ID
+                        var obj = _.max(mockedResponse.body.results, function(obj){ return obj.id; });
+                        body = JSON.parse(body);
+                        body.id = obj.id + 1;
+                        mockedResponse.body.results.push(body);
+                        mockedResponse.body.count = mockedResponse.body.results.length;
+                        renderResponse(res, mockedResponse, body, next);
                     } else {
-                        //console.info('PUT', {'error': 'Item with id:'+id+' not found.'});
                         next();
                     }
+                        //console.info('PUT', {'error': 'Item with id:'+id+' not found.'});
                 });
                 break;
                 case 'GET':
