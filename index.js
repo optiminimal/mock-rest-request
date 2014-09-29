@@ -17,7 +17,12 @@ var mocks = {
 var url = require('url');
 var _ = require('underscore');
 
-module.exports = function mockRequests() {
+module.exports.getMocks = function () {
+    'use strict';
+    return mocks;
+};
+
+module.exports.init = function mockRequests() {
     'use strict';
 
     var renderResponse = function (res, mockedResponse, body) {
@@ -143,12 +148,12 @@ module.exports = function mockRequests() {
                         body = JSON.parse(body);
                         body.id = obj.id + 1;
                         mockedResponse.body.results.push(body);
+                        console.info(mockedResponse.body.results);
                         mockedResponse.body.count = mockedResponse.body.results.length;
                         renderResponse(res, mockedResponse, body, next);
                     } else {
                         next();
                     }
-                        //console.info('PUT', {'error': 'Item with id:'+id+' not found.'});
                 });
                 break;
                 case 'GET':
